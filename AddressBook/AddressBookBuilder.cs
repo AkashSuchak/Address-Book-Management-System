@@ -19,11 +19,42 @@ namespace AddressBook
         // Add contact in AddressBook 
         public void AddContact(string firstName, string lastName, string address, string city, string state, int zipCode, string phoneNumber, string email)
         {
+            //Variable
+            string userConfirmation;
+
+            //Object Created to Add Contact to List
             ContactDetails contactDetails = new ContactDetails(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
             this.contactDetailsList.Add(contactDetails);
+            Console.WriteLine("Contact Details Added SuccessFully !\n");
+            Console.WriteLine("-------------------------------");
+
+            //Asking to Add More Contact
+            while (true)
+            {
+                
+                Console.WriteLine("Want to Add New Contact ? ");
+                Console.WriteLine("Enter 'Yes' to Add New Contact");
+                Console.WriteLine("Enter 'No' to Continue");
+                Console.WriteLine("-------------------------------");
+                userConfirmation = Console.ReadLine();
+
+                if (string.Equals(userConfirmation, "yes", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    //Add Contact
+                    ContactDetails contactDetails1 = new ContactDetails();
+                    this.contactDetailsList.Add(contactDetails1);
+                    Console.WriteLine("Contact Details Added SuccessFully !\n");
+                    Console.WriteLine("-------------------------------");
+                }
+                else if (string.Equals(userConfirmation, "no", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Console.WriteLine("Thank You");
+                    break;
+                }
+            }                        
         }
 
-        //Modify Contact in AddressBook
+        //Modify Contact from AddressBook
         public void ModifyContact()
         {
             //Variables 
@@ -105,6 +136,7 @@ namespace AddressBook
                 }
             }            
         }
+        //Delete Contact from AddressBook
         public void DeleteContact()
         {
             //Variables 
@@ -157,6 +189,7 @@ namespace AddressBook
                 Console.WriteLine("Zip-Code : " + item.zipCode);
                 Console.WriteLine("Phone Number : " + item.phoneNumber);
                 Console.WriteLine("Email-ID : " + item.email);
+                Console.WriteLine("-----------------------");
             }
         }
         
