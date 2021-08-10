@@ -24,10 +24,10 @@ namespace AddressBook
         }
 
         //Modify Contact in AddressBook
-        public void ModifyContact(string firstName)
+        public void ModifyContact()
         {
             //Variables 
-            string userFirstName, dataFirstName;
+            string userFirstName, dataFirstName;            
 
             //User-Input To Modify Data
             Console.WriteLine("Enter First Name To Modify Data : ");
@@ -37,7 +37,8 @@ namespace AddressBook
             foreach (var item in this.contactDetailsList)
             {
                 dataFirstName = item.firstName;
-
+                
+                //Modify Data
                 if (dataFirstName == userFirstName)
                 {                   
                     Console.WriteLine("Data Matched :");
@@ -102,6 +103,40 @@ namespace AddressBook
                     //Display Message
                     Console.WriteLine("Entered Name : " + userFirstName + " not Found!");
                 }
+            }            
+        }
+        public void DeleteContact()
+        {
+            //Variables 
+            string userFirstName, dataFirstName;
+            string userConfirmation;
+
+            //User-Input To Modify Data
+            Console.WriteLine("Enter First Name To Delete Contact : ");
+            userFirstName = Console.ReadLine();
+
+            //Check User-Input Match from AddressBook
+            for (int i = 0; i < contactDetailsList.Count; i++)
+            {
+                dataFirstName = contactDetailsList[i].firstName;
+                Console.WriteLine("Firstname : " + contactDetailsList[i].firstName);
+
+                if (userFirstName == dataFirstName)
+                {
+                    Console.WriteLine("Are You Sure want to Delete This Contact ? ");
+                    Console.WriteLine("Enter 'Yes' to delete Contact");
+                    Console.WriteLine("Enter 'No' to avoid delete Contact");
+                    userConfirmation = Console.ReadLine();
+                    if (string.Equals(userConfirmation, "yes", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        contactDetailsList.RemoveAt(i);
+                        Console.WriteLine("Contact Details deleted SuccessFully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Contact Details Not Deleted");
+                    }
+                }                        
             }            
         }
         //Display Data

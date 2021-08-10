@@ -16,9 +16,11 @@ namespace AddressBook
             //Add Contact 
             AddressBookBuilder addressBookBuilder = new AddressBookBuilder();
             addressBookBuilder.AddContact(CD.firstName, CD.lastName, CD.address, CD.city, CD.state, CD.zipCode, CD.phoneNumber, CD.email);
-            addressBookBuilder.Display(); //Display Contact
+            //addressBookBuilder.Display(); //Display Contact
 
-            addressBookBuilder.ModifyContact(CD.firstName);
+           // addressBookBuilder.ModifyContact();
+
+            addressBookBuilder.DeleteContact();
         }
     }
 }
