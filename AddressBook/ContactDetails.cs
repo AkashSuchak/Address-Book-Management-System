@@ -20,7 +20,7 @@ namespace AddressBook
         public string phoneNumber;
         public string email;
         public int zipCode;
-        public ContactDetails next;
+        
 
         public ContactDetails()
         {
@@ -64,6 +64,5 @@ namespace AddressBook
             this.phoneNumber = phoneNumber;
             this.email = email;            
         }
-
     }
 }

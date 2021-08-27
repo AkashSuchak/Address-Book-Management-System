@@ -11,3 +11,7 @@ C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\Addre
 C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\AddressBook.dll
 C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\AddressBook.pdb
 C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\AddressBook.genruntimeconfig.cache
+C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\AddressBook.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\source\repos\AddressBook\AddressBook\bin\Debug\netcoreapp3.1\Json.Net.dll
+C:\Users\DELL\source\repos\AddressBook\AddressBook\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\DELL\source\repos\AddressBook\AddressBook\obj\Debug\netcoreapp3.1\AddressBook.csproj.CopyComplete

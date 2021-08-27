@@ -1,19 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace AddressBook
 {
     class AddressBookBuilder : IAddressBook
     {
-        //LinkedList 
-        private List<ContactDetails> contactDetailsList; 
+        //Dictionary and List 
+        private List<ContactDetails> contactDetailsList;
+        private Dictionary<string, List<ContactDetails>> AddressBookDictionary;
 
         //Constructor
         public AddressBookBuilder()
         {
             this.contactDetailsList = new List<ContactDetails>();
+            this.AddressBookDictionary = new Dictionary<string, List<ContactDetails>>();
         }
 
         // Add contact in AddressBook 
@@ -31,7 +36,6 @@ namespace AddressBook
             //Asking to Add More Contact
             while (true)
             {
-                
                 Console.WriteLine("Want to Add New Contact ? ");
                 Console.WriteLine("Enter 'Yes' to Add New Contact");
                 Console.WriteLine("Enter 'No' to Continue");
@@ -51,14 +55,14 @@ namespace AddressBook
                     Console.WriteLine("Thank You");
                     break;
                 }
-            }                        
+            }
         }
 
         //Modify Contact from AddressBook
         public void ModifyContact()
         {
             //Variables 
-            string userFirstName, dataFirstName;            
+            string userFirstName, dataFirstName;
 
             //User-Input To Modify Data
             Console.WriteLine("Enter First Name To Modify Data : ");
@@ -68,10 +72,10 @@ namespace AddressBook
             foreach (var item in this.contactDetailsList)
             {
                 dataFirstName = item.firstName;
-                
+
                 //Modify Data
                 if (dataFirstName == userFirstName)
-                {                   
+                {
                     Console.WriteLine("Data Matched :");
                     Display();
                     Console.WriteLine("Enter What You Wnat to Modify :");
@@ -80,7 +84,7 @@ namespace AddressBook
                     Console.WriteLine("---------------------------------------------------");
                     string userModifyInput = Console.ReadLine();
 
-                    if (string.Equals(userModifyInput, "First Name", StringComparison.CurrentCultureIgnoreCase ))
+                    if (string.Equals(userModifyInput, "First Name", StringComparison.CurrentCultureIgnoreCase))
                     {
                         Console.WriteLine("Enter First Name : ");
                         item.firstName = Console.ReadLine();
@@ -91,7 +95,7 @@ namespace AddressBook
                         Console.WriteLine("Enter Last Name : ");
                         item.lastName = Console.ReadLine();
                         Console.WriteLine("Updated Last Name : " + item.lastName);
-                    } 
+                    }
                     else if (string.Equals(userModifyInput, "Address", StringComparison.CurrentCultureIgnoreCase))
                     {
                         Console.WriteLine("Enter Address : ");
@@ -134,7 +138,7 @@ namespace AddressBook
                     //Display Message
                     Console.WriteLine("Entered Name : " + userFirstName + " not Found!");
                 }
-            }            
+            }
         }
         //Delete Contact from AddressBook
         public void DeleteContact()
@@ -168,8 +172,8 @@ namespace AddressBook
                     {
                         Console.WriteLine("Contact Details Not Deleted");
                     }
-                }                        
-            }            
+                }
+            }
         }
         //Display Data
         public void Display()
@@ -192,6 +196,119 @@ namespace AddressBook
                 Console.WriteLine("-----------------------");
             }
         }
-        
+
+
+        public void AddressBookCreator()
+        {
+            int userInputAddressBook;
+            string nameOfAddressBook;
+
+            //Display Messages
+            Console.WriteLine("================================");
+            Console.WriteLine("Choose Option to Continue : ");
+            Console.WriteLine("Press 1 : Create New AddressBook");
+            Console.WriteLine("Press 2 : Display AddressBooks");
+            Console.WriteLine("================================");
+
+            //Taking Name of AddressBook from User
+            userInputAddressBook = int.Parse(Console.ReadLine());                        
+
+            //Operations to Choose
+            switch (userInputAddressBook)
+            {
+                case 1:
+                    //Display Message
+                    Console.WriteLine("Write Name of Your AddressBook");
+                    Console.WriteLine("NOTE : Name Must Be Unique :");
+                    Console.WriteLine("------------------------------");
+                    nameOfAddressBook = Console.ReadLine();
+
+                    //Read Data from Json File
+                    string datafile = File.ReadAllText(@"C:\Users\DELL\source\repos\AddressBook\AddressBook\AddressBooksData.json");
+                    JObject a = JObject.Parse(datafile);
+
+                    //Check AddressBook Name is Available Or Not
+                    foreach (var item in a)
+                    {
+                        if(nameOfAddressBook == item.Key)
+                        {
+                            Console.WriteLine("AddressBook Already Exist! Try Again");
+                            AddressBookCreator();
+                        }
+                    }
+
+                    if (nameOfAddressBook != "")
+                    {                        
+                        //Display Message
+                        Console.WriteLine(nameOfAddressBook + " - AddressBook is created.");
+                        
+                        Console.WriteLine("---------------------------");
+                        Console.WriteLine("Wanted To Add Person Data ?");
+                        Console.WriteLine("Press 1 : Yes");                        
+                        Console.WriteLine("Press 2 : Main Menu");
+                        Console.WriteLine("Press 3 : Exit");
+                        Console.WriteLine("----------------------------");
+
+                        int userChoice;
+                        userChoice = int.Parse(Console.ReadLine());
+                        switch (userChoice)
+                        {
+                            case 1:
+                                Console.WriteLine("Hello You are In Case 1");
+
+                                ContactDetails CD = new ContactDetails();
+                                AddContact(CD.firstName, CD.lastName, CD.address, CD.city, CD.state, CD.zipCode, CD.phoneNumber, CD.email);
+
+                                //Add Key and Values in Dictionary
+                                AddressBookDictionary.Add(nameOfAddressBook, contactDetailsList);
+                                
+                                foreach (var item in a)
+                                {
+                                    Console.WriteLine(item.Key);                                                                        
+                                }
+
+                                //Serialize JSON 
+                                string json = JsonConvert.SerializeObject(AddressBookDictionary);
+                                File.WriteAllText(@"C:\Users\DELL\source\repos\AddressBook\AddressBook\AddressBooksData.json", json);
+
+                                Console.WriteLine("Person Data Added SuccessFully");
+                                break;
+                            case 2:
+                                AddressBookCreator();
+                                break;
+                            case 3:
+                                System.Environment.Exit(0);
+                                break;
+                            default:
+                                break;
+                        }                        
+                    }
+                    else
+                        Console.WriteLine("Name Should have some characters !!!");
+
+                    break;
+
+                case 2:
+                    //variable
+                    int counter = 1;
+                    Console.WriteLine("----------------------");
+                    Console.WriteLine("List Of Dictionaries :");
+                    Console.WriteLine("----------------------");
+
+                    //Read Data from Json File
+                    string datafile1 = File.ReadAllText(@"C:\Users\DELL\source\repos\AddressBook\AddressBook\AddressBooksData.json");
+                    JObject a1 = JObject.Parse(datafile1);
+
+                    //Check AddressBook Name is Available Or Not
+                    foreach (var item in a1)
+                    {                       
+                        Console.WriteLine(counter + " " + item.Key);
+                        counter++;
+                    }                    
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
